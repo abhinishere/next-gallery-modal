@@ -1,6 +1,6 @@
 export interface ImageType {
   id: string;
-  // created_at:
+  created_at: string;
   user_id: string;
   author: string;
   title: string;
@@ -8,6 +8,7 @@ export interface ImageType {
   alt: string;
   caption: string;
   description: string;
+  status?: string;
 }
 
 export interface UserDetails {

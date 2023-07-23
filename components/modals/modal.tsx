@@ -8,12 +8,12 @@ import { useSupabaseClient } from "@supabase/auth-helpers-react";
 import { toast } from "react-hot-toast";
 import { useUser } from "@/hooks/use-user";
 import { v4 as uuidv4 } from "uuid";
+import { ImageType } from "@/types";
 
 interface ModalProps {
   isOpen?: boolean;
   onClose: () => void;
   onUpload: () => void;
-  onSubmit: () => void;
   title?: string;
   body?: React.ReactElement;
   footer?: React.ReactElement;
@@ -21,12 +21,13 @@ interface ModalProps {
   disabled?: boolean;
   secondaryAction?: () => void;
   secondaryActionLabel?: string;
+  selectedImage?: ImageType;
+  featuredImageSetter?: Function;
 }
 
 const Modal: React.FC<ModalProps> = ({
   isOpen,
   onClose,
-  onSubmit,
   onUpload,
   title,
   body,
@@ -35,6 +36,8 @@ const Modal: React.FC<ModalProps> = ({
   disabled,
   secondaryAction,
   secondaryActionLabel,
+  selectedImage,
+  featuredImageSetter,
 }) => {
   const supabaseClient = useSupabaseClient();
   const { user } = useUser();
@@ -53,14 +56,6 @@ const Modal: React.FC<ModalProps> = ({
       onClose();
     }, 300);
   }, [disabled, onClose]);
-
-  const handleSubmit = useCallback(() => {
-    if (disabled) {
-      return;
-    }
-
-    onSubmit();
-  }, [disabled, onSubmit]);
 
   //handle next options etc
   const handleSecondaryAction = useCallback(() => {
@@ -117,6 +112,15 @@ const Modal: React.FC<ModalProps> = ({
     } catch (error) {
       toast.error("Something went wrong");
       console.log(error);
+    }
+  };
+
+  const changeFeaturedImage = () => {
+    if (featuredImageSetter && selectedImage) {
+      featuredImageSetter(selectedImage);
+      onClose();
+    } else {
+      toast.error("No image selected.");
     }
   };
 
@@ -210,15 +214,6 @@ const Modal: React.FC<ModalProps> = ({
                   onChange={uploadImages}
                   multiple
                 />
-                {/* <Button
-                  className="
-                    absolute
-                    right-9
-                  "
-                  variant="secondary"
-                >
-                  Upload
-                </Button> */}
               </div>
               <Separator />
               {/*body*/}
@@ -235,22 +230,9 @@ const Modal: React.FC<ModalProps> = ({
                     w-full
                   "
                 >
-                  {/* {secondaryAction && secondaryActionLabel && (
-                    <Button
-                      disabled={disabled}
-                      label={secondaryActionLabel}
-                      onClick={handleSecondaryAction}
-                      outline
-                    />
-                  )}
-                  <Button
-                    disabled={disabled}
-                    label={actionLabel}
-                    onClick={handleSubmit}
-                  /> */}
                   <Button
                     size="lg"
-                    onClick={() => toast.success("test")}
+                    onClick={changeFeaturedImage}
                     className="w-full"
                   >
                     {actionLabel}

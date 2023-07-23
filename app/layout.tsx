@@ -1,6 +1,5 @@
-import UploadModal from "@/components/modals/upload-modal";
 import Navbar from "@/components/navbar";
-import ModalProvider from "@/providers/modal-provider";
+import Realtime from "@/components/realtime";
 import SupabaseProvider from "@/providers/supabase-provider";
 import { ThemeProvider } from "@/providers/theme-provider";
 import ToastProvider from "@/providers/toast-provider";
@@ -29,7 +28,7 @@ export default function RootLayout({
             <ToastProvider />
             <SupabaseProvider>
               <UserProvider>
-                <ModalProvider />
+                <Realtime />
                 <Navbar />
                 {children}
               </UserProvider>

@@ -1,8 +1,5 @@
 "use client";
-
 import { useEffect, useState } from "react";
-
-import UploadModal from "@/components/modals/upload-modal";
 
 const ModalProvider = () => {
   const [isMounted, setIsMounted] = useState(false);
@@ -11,12 +8,11 @@ const ModalProvider = () => {
     setIsMounted(true);
   }, []);
 
-  if (!isMounted) return null;
-  return (
-    <>
-      <UploadModal />
-    </>
-  );
+  if (!isMounted) {
+    return null;
+  }
+
+  return <></>;
 };
 
 export default ModalProvider;

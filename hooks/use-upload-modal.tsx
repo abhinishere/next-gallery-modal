@@ -1,18 +1,15 @@
 import { create } from "zustand";
 
-import { ImageType } from "@/types";
-
 interface UploadModalProps {
   isOpen: boolean;
-  data?: ImageType[];
-  onOpen: (data: ImageType[]) => void;
+  imageSetter?: Function;
+  onOpen: (imageSetter: Function) => void;
   onClose: () => void;
 }
 
 const useUploadModal = create<UploadModalProps>((set) => ({
   isOpen: false,
-  data: undefined,
-  onOpen: (data: ImageType[]) => set({ data, isOpen: true }),
+  onOpen: (imageSetter?: Function) => set({ isOpen: true, imageSetter }),
   onClose: () => set({ isOpen: false }),
 }));
 

@@ -1,7 +1,7 @@
-import NextImage from "next/image";
 import { Tab } from "@headlessui/react";
 import { cn } from "@/lib/utils";
 import { ImageType } from "@/types";
+import Image from "next/image";
 
 interface GalleryTabProps {
   image: ImageType;
@@ -13,7 +13,7 @@ const GalleryTab: React.FC<GalleryTabProps> = ({ image }) => {
       {({ selected }) => (
         <div>
           <span className="absolute h-full w-full aspect-square inset-0 overflow-hidden rounded-md">
-            <NextImage
+            <Image
               fill
               src={
                 process.env.NEXT_PUBLIC_SUPABASE_URL +

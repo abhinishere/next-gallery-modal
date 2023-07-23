@@ -5,11 +5,6 @@ import { SignInForm } from "@/components/sign-in-form";
 import { useUser } from "@/hooks/use-user";
 import { useRouter } from "next/navigation";
 
-// export const metadata: Metadata = {
-//   title: "Sign In",
-//   description: "Login to your account",
-// };
-
 export default function SignInPage() {
   const router = useRouter();
   const { user } = useUser();

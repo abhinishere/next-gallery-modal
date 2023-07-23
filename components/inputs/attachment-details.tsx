@@ -6,15 +6,16 @@ import { Input } from "../ui/input";
 import { Label } from "../ui/label";
 import { Textarea } from "../ui/textarea";
 import { ImageType } from "@/types";
-import Link from "next/link";
 import { useSupabaseClient } from "@supabase/auth-helpers-react";
 import toast from "react-hot-toast";
+import { useRouter } from "next/navigation";
 
 interface AttachmentDetailsProps {
   image: ImageType;
 }
 
 const AttachmentDetails: React.FC<AttachmentDetailsProps> = ({ image }) => {
+  const router = useRouter();
   const supabase = useSupabaseClient();
   const deleteThisImage = async () => {
     const { error } = await supabase
@@ -38,6 +39,52 @@ const AttachmentDetails: React.FC<AttachmentDetailsProps> = ({ image }) => {
         toast.success("Deleted from storage as well.");
       }
     }
+    router.refresh();
+  };
+
+  const updateTitle = async (text: string) => {
+    const { error } = await supabase
+      .from("images")
+      .update({ title: text })
+      .eq("image_path", image.image_path);
+    if (error) {
+      toast.error("Updation failed");
+      console.log(error.message);
+    }
+    router.refresh();
+  };
+  const updateAlt = async (text: string) => {
+    const { error } = await supabase
+      .from("images")
+      .update({ alt: text })
+      .eq("image_path", image.image_path);
+    if (error) {
+      toast.error("Updation failed");
+      console.log(error.message);
+    }
+    router.refresh();
+  };
+  const updateDescription = async (text: string) => {
+    const { error } = await supabase
+      .from("images")
+      .update({ description: text })
+      .eq("image_path", image.image_path);
+    if (error) {
+      toast.error("Updation failed");
+      console.log(error.message);
+    }
+    router.refresh();
+  };
+  const updateCaption = async (text: string) => {
+    const { error } = await supabase
+      .from("images")
+      .update({ caption: text })
+      .eq("image_path", image.image_path);
+    if (error) {
+      toast.error("Updation failed");
+      console.log(error.message);
+    }
+    router.refresh();
   };
   return (
     <Card className="overflow-y-auto">
@@ -72,19 +119,35 @@ const AttachmentDetails: React.FC<AttachmentDetailsProps> = ({ image }) => {
         </div>
         <div className="grid gap-2">
           <Label htmlFor="title">Title</Label>
-          <Input defaultValue={image.title} id="title" />
+          <Input
+            defaultValue={image.title}
+            id="title"
+            onChange={(e) => updateTitle(e.target.value)}
+          />
         </div>
         <div className="grid gap-2">
           <Label htmlFor="alt">Alt Text</Label>
-          <Textarea defaultValue={image.alt} id="alt" />
+          <Textarea
+            defaultValue={image.alt}
+            id="alt"
+            onChange={(e) => updateAlt(e.target.value)}
+          />
         </div>
         <div className="grid gap-2">
           <Label htmlFor="caption">Caption</Label>
-          <Textarea defaultValue={image.caption} id="caption" />
+          <Textarea
+            defaultValue={image.caption}
+            id="caption"
+            onChange={(e) => updateCaption(e.target.value)}
+          />
         </div>
         <div className="grid gap-2">
           <Label htmlFor="description">Description</Label>
-          <Textarea defaultValue={image.description} id="description" />
+          <Textarea
+            defaultValue={image.description}
+            id="description"
+            onChange={(e) => updateDescription(e.target.value)}
+          />
         </div>
       </CardContent>
     </Card>
